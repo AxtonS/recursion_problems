@@ -36,3 +36,14 @@ def fib(n)
 
   fib(n - 2) + fib(n - 1)
 end
+
+def flatten(arr, flat = [])
+  arr.each do |i|
+    if i.instance_of?(Array)
+      flatten(i, flat)
+    else
+      flat.push(i)
+    end
+  end
+  flat
+end
