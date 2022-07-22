@@ -28,3 +28,11 @@ def bottles(n)
     puts 'no more bottles of beer on the wall'
   end
 end
+
+def fib(n)
+  return 0 if n.zero?
+
+  return 1 if n == 1
+
+  fib(n - 2) + fib(n - 1)
+end
