@@ -48,26 +48,6 @@ def flatten(arr, flat = [])
   flat
 end
 
-# translates between roman numerals and european numerals
-class RomanNumerals
-  attr_reader :roman, :numeric
-
-  @chart = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 }
-  def initialize(roman: '', numeric: 0)
-    @roman = roman
-    @numeric = numeric
-  end
-
-  def num_to_rom(string = '')
-    if @numeric >= 1000
-      string = string.prepend('M')
-      num_to_rom(numeric - 1000)
-    else
-      string
-    end
-  end
-end
-
 def num_to_rom(num, str = '')
   if num >= 1000
     str = "#{str}M"
@@ -110,5 +90,29 @@ def num_to_rom(num, str = '')
     num_to_rom(num - 1, str)
   else
     str
+  end
+end
+
+def rom_to_num(str, num = 0)
+  chart = {M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1}
+  return num if str.empty?
+
+  if str.length >= 2
+    if chart.has_key?(str[-2..-1].upcase.to_sym)
+      num += chart[str[-2..-1].upcase.to_sym]
+      rom_to_num(str[0..-3], num)
+    elsif chart.has_key?(str[-1].upcase.to_sym)
+      num += chart[str[-1].upcase.to_sym]
+      rom_to_num(str[0..-2], num)
+    else
+      num
+    end
+  elsif str.length == 1
+    if chart.has_key?(str[-1].upcase.to_sym)
+      num += chart[str[-1].upcase.to_sym]
+      rom_to_num(str[0..-2], num)
+    else
+      rom_to_num('', num)
+    end
   end
 end
